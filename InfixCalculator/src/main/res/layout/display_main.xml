@@ -328,7 +328,6 @@
                 android:id="@+id/screen"
                 android:autoText="false"
                 android:textColor="@android:color/white"
-                android:gravity="right"
                 android:layout_marginTop="10px"
                 android:layout_marginLeft="4dp"
                 android:layout_marginRight="4dp"
@@ -338,7 +337,8 @@
                 android:singleLine="false"
                 android:textIsSelectable="true"
                 android:scrollHorizontally="true"
-                android:text="0" />
+                android:text="0"
+                android:gravity="bottom|right" />
         </HorizontalScrollView>
 
     </RelativeLayout>

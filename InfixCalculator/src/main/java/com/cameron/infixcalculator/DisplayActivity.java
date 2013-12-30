@@ -23,7 +23,7 @@ import android.content.DialogInterface;
 
 public class DisplayActivity extends ActionBarActivity {
 
-    private boolean clearOnInput;
+    private boolean clearOnInput, isInfinite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +31,7 @@ public class DisplayActivity extends ActionBarActivity {
         setContentView(R.layout.display_main);
 
         clearOnInput = true;
+        isInfinite = false;
 
         int screenWidth, screenHeight;
 
@@ -64,7 +65,6 @@ public class DisplayActivity extends ActionBarActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.display, menu);
         return true;
@@ -85,19 +85,25 @@ public class DisplayActivity extends ActionBarActivity {
 
     public void addCharacter(View view) {
         Button clickedButton = (Button) view;
-        try {
-            Double.parseDouble(clickedButton.getText().toString());
-            if(clearOnInput) {
-                clearScreen(null);
+        if(isInfinite) {
+            clearScreen(null);
+            clearOnInput = false;
+            isInfinite = false;
+        } else {
+            try {
+                Double.parseDouble(clickedButton.getText().toString());
+                if(clearOnInput) {
+                    clearScreen(null);
+                    clearOnInput = false;
+                }
+            } catch(Exception e) {
+                // Don't clear, just add character
+                String text = clickedButton.getText().toString();
+                if(clearOnInput && (text.equals("(") || text.equals(")"))) {
+                    clearScreen(null);
+                }
                 clearOnInput = false;
             }
-        } catch(Exception e) {
-            // Don't clear, just add character
-            String text = clickedButton.getText().toString();
-            if(clearOnInput && (text.equals("(") || text.equals(")"))) {
-                clearScreen(null);
-            }
-            clearOnInput = false;
         }
         TextView expr = (TextView) findViewById(R.id.screen);
         if(view == findViewById(R.id.btnExp)) {
@@ -121,6 +127,10 @@ public class DisplayActivity extends ActionBarActivity {
         double value = 0.0;
         try {
             value = Double.parseDouble(((TextView) findViewById(R.id.screen)).getText().toString());
+            if(Double.isInfinite(value) || Double.isNaN(value)) {
+                value = 0.0;
+                messageBox("Memory Error", "Memory can not hold infinity or non-numbers.");
+            }
         } catch(Exception e) {
             messageBox("Memory Error", "Memory can only hold numbers.");
         }
@@ -129,6 +139,11 @@ public class DisplayActivity extends ActionBarActivity {
 
     public void recallMemory(View view) {
         TextView screen = (TextView) findViewById(R.id.screen);
+        if(clearOnInput || isInfinite) {
+            clearScreen(null);
+            clearOnInput = false;
+            isInfinite = false;
+        }
         screen.append(Double.toString(CalculatorMemory.get().getValue()));
     }
 
@@ -157,6 +172,9 @@ public class DisplayActivity extends ActionBarActivity {
         switch(evaluator.checkError()) {
             case 0:
                 screen.setText(Double.toString(result));
+                if(Double.isInfinite(result)) {
+                    isInfinite = true;
+                }
                 break;
             case 1:
                 messageBox("Infix Error", "You did not input a proper infix expression.");

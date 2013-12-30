@@ -89,6 +89,10 @@ public class DisplayActivity extends ActionBarActivity {
             }
         } catch(Exception e) {
             // Don't clear, just add character
+            String text = clickedButton.getText().toString();
+            if(clearOnInput && (text.equals("(") || text.equals(")"))) {
+                clearScreen(null);
+            }
             clearOnInput = false;
         }
         TextView expr = (TextView) findViewById(R.id.screen);
@@ -169,6 +173,7 @@ public class DisplayActivity extends ActionBarActivity {
                 messageBox("Division by 0", "I'm afraid I can't let you do that user.");
                 break;
         }
+        clearOnInput = true;
     }
 
     /**

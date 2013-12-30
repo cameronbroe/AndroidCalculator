@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,6 +40,9 @@ public class DisplayActivity extends ActionBarActivity {
 
         screenWidth = size.x;
         screenHeight = size.y;
+
+        TextView screen = (TextView) findViewById(R.id.screen);
+        screen.setMovementMethod(new ScrollingMovementMethod());
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()

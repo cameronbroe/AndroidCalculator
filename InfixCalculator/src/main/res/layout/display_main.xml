@@ -20,10 +20,10 @@
             android:columnOrderPreserved="false"
             android:useDefaultMargins="false"
             android:layout_gravity="center"
-            android:layout_below="@+id/screen"
             android:layout_alignParentLeft="false"
-            android:layout_centerInParent="true"
-            android:id="@+id/grid">
+            android:id="@+id/grid"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/horizontalScrollView">
 
             <Button
                 android:layout_width="wrap_content"
@@ -307,24 +307,39 @@
 
         </GridLayout>
 
-        <TextView
+        <HorizontalScrollView
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:id="@+id/screen"
-            android:background="@android:color/white"
-            android:autoText="false"
-            android:textColor="@android:color/black"
-            android:gravity="right"
+            android:id="@+id/horizontalScrollView"
+            android:layout_alignParentRight="false"
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentStart="false"
+            android:layout_alignWithParentIfMissing="false"
+            android:fillViewport="true"
             android:layout_marginTop="10px"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="4dp"
-            android:textSize="26pt"
-            android:paddingRight="5dp"
-            android:textAlignment="gravity"
-            android:singleLine="true"
-            android:textIsSelectable="true"
-            android:text="0" />
+            android:layout_marginBottom="10px"
+            android:layout_marginLeft="2px"
+            android:layout_marginRight="2px">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:id="@+id/screen"
+                android:autoText="false"
+                android:textColor="@android:color/white"
+                android:gravity="right"
+                android:layout_marginTop="10px"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:textSize="26pt"
+                android:paddingRight="5dp"
+                android:textAlignment="gravity"
+                android:singleLine="false"
+                android:textIsSelectable="true"
+                android:scrollHorizontally="true"
+                android:text="0" />
+        </HorizontalScrollView>
 
     </RelativeLayout>
 
